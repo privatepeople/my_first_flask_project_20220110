@@ -2,7 +2,7 @@ from flask import Flask, request
 from flask.templating import render_template
 from flask_cors import CORS
 
-from .api import user_test, login_test
+from .api import user_test, login_test, sign_up
 
 def create_app():
     # 플라스크 서버를 변수에 담자.
@@ -44,6 +44,13 @@ def create_app():
         pw = params['pw']
         
         return login_test(id, pw)
-        
+    
+    # 회원가입 주소
+    @app.route('/sign_up')
+    def sign_up_url():
+        # 받아낸 파라미터를 통째로 회원가입 함수에 전달
+        return sign_up(request.args.to_dict())
+    
+    
     # 이 서버를 사용하도록 결과로 내보내자.
     return app
