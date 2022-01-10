@@ -1,0 +1,31 @@
+<html>
+
+    <!-- 웹 프론트엔드의 영역. -->
+
+    <head>
+        <title>HTML문서 불러내기</title>
+    </head>
+
+    <body>
+        <h1>파이썬을 이용해, 웹페이지를 만듭니다.</h1>
+        <h2>HTML문서를 만들어서 불러내봅니다.</h2>
+        <h3>이 문서는 /web 주소로 접근 가능합니다.</h3>
+
+        <input id="idInput" placeholder='아이디'><br>
+        <input id="pwInput" placeholder='비밀번호'><br>
+        <button onclick="test()">로그인</button>
+    </body>
+    <script>
+        function test() {
+
+            let inputId = document.getElementById('idInput').value
+            let inputPw = document.getElementById('pwInput').value
+
+            alert(inputId)
+            alert(inputPw)
+
+            // 입력한 아이디와 비번을 받아냄 => 파이썬 서버의 로그인 기능에 전달해보자.
+        }
+    </script>
+
+</html>
