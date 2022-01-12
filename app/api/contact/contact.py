@@ -1,6 +1,8 @@
 from pymysql import connect
 from pymysql.cursors import DictCursor
 
+from app.api import contact
+
 # 연락처에 관련된 로직을 담당하는 파일
 # db 연결 / cursor 변수
 db = connect(
@@ -47,9 +49,29 @@ def get_contacts_from_db(params):
     # 응용2 : 한번에 10개씩만 내려주자. (게시판처럼 페이징 처리)
     
     sql = f"SELECT * FROM contacts WHERE user_id = {params['user_id']}"
-    print('sql : ', sql)
+
+    cursor.execute(sql)
+    
+    query_result = cursor.fetchall()
+    
+    contacts_arr = []
+
+    for row in query_result:
+        contact = {}
+        
+        # contact의 내용을 채우자
+        contact['id'] = row['id']
+        contact['name'] = row['name']
+        contact['phone_num'] = row['phone_num']
+        contact['memo'] = row['memo']
+        
+        # 내용이 채워진 contact를 리스트에 추가
+        contacts_arr.append(contact)
     
     return {
         'code': 200,
-        'message': '임시 성공 응답',
+        'message': '내 연락처 목록',
+        'data': {
+            'contacts': contacts_arr # 리스트를 통째로 응다으로 -> JSONArray를 응답으로
+        }
     }
