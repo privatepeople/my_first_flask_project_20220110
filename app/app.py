@@ -2,7 +2,8 @@ from flask import Flask, request
 from flask.templating import render_template
 from flask_cors import CORS
 
-from .api import user_test, login_test, sign_up, add_contact_to_db
+from .api import user_test, login_test, sign_up
+from .api.contact import add_contact_to_db, get_contacts_from_db
 
 def create_app():
     # 플라스크 서버를 변수에 담자.
@@ -55,6 +56,12 @@ def create_app():
     @app.route('/add_contact')
     def add_contact_url():
         return add_contact_to_db(request.args.to_dict())
+    
+    # 연락처 목록 조회
+    @app.route('/get_contacts')
+    def get_contacts_url():
+        return get_contacts_from_db(request.args.to_dict())
+        
     
     # 이 서버를 사용하도록 결과로 내보내자.
     return app
