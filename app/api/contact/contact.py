@@ -53,12 +53,21 @@ def get_contacts_from_db(params):
     
     # order_type 파라미터가 실제로 올때만 추가 작업
     if 'order_type' in params.keys():
-        
         order_type = params['order_type']
         if order_type == '최신순':
             sql = f"{sql} ORDER BY created_at DESC" # 기존 쿼리 뒤에, ORDER BY created_at DESC 추가
         elif order_type == '이름순':
             sql = f"{sql} ORDER BY name" # 기존 쿼리 뒤에, ORDER BY name 추가
+            
+    
+    # 페이지의 번호가 들어온다면? => 일정 갯수만큼 남기고, 그 다음 n개
+    if 'page_num' in params.keys():
+        page_num = int(params['page_num'])
+        
+        # 0페이지 : 0개를 넘기고, 그 다음 2개
+        # 1페이지 : 2개 넘기고, 그 다음 2개
+        # 2페이지 : 4개 넘기고, 그 다음 2개 -> 넘기는 갯수 : page_num *2, 보여주는 갯수 : 무조건 2개
+        sql = f"{sql} LIMIT {page_num * 2}, 2"
             
     print(sql)
     
