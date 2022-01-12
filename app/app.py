@@ -2,7 +2,7 @@ from flask import Flask, request
 from flask.templating import render_template
 from flask_cors import CORS
 
-from .api import user_test, login_test, sign_up
+from .api import user_test, login_test, sign_up, add_contact_to_db
 
 def create_app():
     # 플라스크 서버를 변수에 담자.
@@ -51,6 +51,10 @@ def create_app():
         # 받아낸 파라미터를 통째로 회원가입 함수에 전달
         return sign_up(request.args.to_dict())
     
+    # 전화번호부 추가 등록
+    @app.route('/add_contact')
+    def add_contact_url():
+        return add_contact_to_db(request.args.to_dict())
     
     # 이 서버를 사용하도록 결과로 내보내자.
     return app
